@@ -612,6 +612,12 @@ public class PyFile extends PyObject implements FinalizableBuiltin, Traverseproc
         return PyJavaType.wrapJavaObject(file.fileno());
     }
 
+    // HACK to expose file descriptor
+    //@ExposedMethod(doc = BuiltinDocs.file_fileno_doc)
+    final public int fd() {
+        return ((PyInteger)((FileIO)file.fileno()).__int__()).getValue();
+    }
+
     @ExposedMethod(names = {"__str__", "__repr__"}, doc = BuiltinDocs.file___str___doc)
     final String file_toString() {
         String state = file.closed() ? "closed" : "open";
